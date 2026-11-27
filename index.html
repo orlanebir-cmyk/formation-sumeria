@@ -14,7 +14,6 @@
       background-color: #F4F6F9;
       color: #141B2D;
     }
-    /* Masquer les contrôles natifs d'avance rapide sur les navigateurs WebKit */
     video::-webkit-media-controls-timeline {
       pointer-events: none;
     }
@@ -68,11 +67,11 @@
   </script>
 
   <!-- COLONNE DE GAUCHE : PARCOURS STYLE PPS -->
-  <aside class="w-full lg:w-80 xl:w-96 bg-white border-b lg:border-b-0 lg:border-r border-slate-200 p-6 lg:p-8 flex flex-col justify-between shrink-0">
+  <aside class="w-full lg:w-80 xl:w-96 bg-white border-b lg:border-b-0 lg:border-r border-slate-200 p-5 sm:p-6 lg:p-8 flex flex-col justify-between shrink-0">
     <div>
       <!-- Logo / En-tête Programme -->
-      <div class="mb-8">
-        <div class="inline-flex items-center gap-2.5 mb-2">
+      <div class="mb-6 lg:mb-8">
+        <div class="inline-flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center font-extrabold text-lg tracking-tight">
             S
           </div>
@@ -84,13 +83,13 @@
       </div>
 
       <!-- Liste verticale des étapes -->
-      <nav aria-label="Progression de la formation" class="space-y-6" id="stepper-nav">
+      <nav aria-label="Progression de la formation" class="space-y-4 lg:space-y-6" id="stepper-nav">
         <!-- Généré dynamiquement par JavaScript -->
       </nav>
     </div>
 
     <!-- Pied de colonne : Infos & Outil Démo / Export -->
-    <div class="mt-8 pt-6 border-t border-slate-100 space-y-3">
+    <div class="mt-6 lg:mt-8 pt-5 border-t border-slate-100 space-y-3">
       <div class="flex items-center justify-between text-xs text-slate-500">
         <span>Progression globale</span>
         <span id="global-progress-text" class="font-bold text-slate-800">0%</span>
@@ -99,8 +98,8 @@
         <div id="global-progress-bar" class="h-full bg-indigo-600 transition-all duration-500" style="width: 0%"></div>
       </div>
 
-      <!-- Bouton discret pour tester rapidement ou exporter les validations locales -->
-      <div class="pt-3 flex flex-col gap-2">
+      <!-- Boutons de test et suivi -->
+      <div class="pt-2 flex flex-col gap-2">
         <button id="demo-skip-btn" onclick="simulateVideoEnd()" class="text-[11px] text-slate-400 hover:text-indigo-600 text-left transition flex items-center gap-1.5">
           <span>⚡</span> <span>Mode test : simuler la fin de la vidéo</span>
         </button>
@@ -111,78 +110,82 @@
     </div>
   </aside>
 
-  <!-- ZONE PRINCIPALE : LECTEUR VIDÉO OU FORMULAIRE FINAL -->
-  <main class="flex-1 flex flex-col justify-between p-6 sm:p-10 lg:p-12 max-w-5xl mx-auto w-full">
+  <!-- ZONE PRINCIPALE : LECTEUR VIDÉO VERTICAL OU FORMULAIRE FINAL -->
+  <main class="flex-1 flex flex-col justify-between p-5 sm:p-8 lg:p-10 max-w-5xl mx-auto w-full">
     
     <!-- VUE 1 : ÉTAPES VIDÉO -->
     <div id="video-stage" class="flex-1 flex flex-col">
-      <div class="mb-6">
-        <p class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1.5" id="header-eyebrow">
+      <div class="mb-5">
+        <p class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1" id="header-eyebrow">
           FORMATION OBLIGATOIRE AMBASSADEURS SUMERIA
         </p>
         <div class="flex items-center gap-3">
           <div id="header-icon" class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm">
           </div>
           <div>
-            <h1 id="step-title" class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 id="step-title" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">
               Chargement...
             </h1>
-            <p id="step-subtitle" class="text-sm text-slate-500 mt-0.5"></p>
+            <p id="step-subtitle" class="text-xs sm:text-sm text-slate-500 mt-0.5"></p>
           </div>
         </div>
       </div>
 
-      <!-- Conteneur Vidéo Verrouillé -->
-      <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-xl border border-slate-200/80 relative group">
-        <video
-          id="training-video"
-          class="w-full aspect-video object-cover bg-black"
-          playsinline
-          preload="metadata"
-        ></video>
+      <!-- Conteneur Vidéo Vertical (9:16) centré et responsive -->
+      <div class="flex-1 flex flex-col items-center justify-center my-2">
+        <div class="w-full max-w-[340px] sm:max-w-[360px] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border-4 border-white relative group">
+          <div class="relative aspect-[9/16] bg-black flex items-center justify-center">
+            <video
+              id="training-video"
+              class="w-full h-full object-contain bg-black"
+              playsinline
+              preload="auto"
+            ></video>
 
-        <!-- Superposition Play central au démarrage -->
-        <div id="play-overlay" onclick="togglePlay()" class="absolute inset-0 bg-slate-900/40 flex flex-col items-center justify-center cursor-pointer transition hover:bg-slate-900/30">
-          <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-2xl transform transition group-hover:scale-105">
-            <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-          </div>
-          <span class="mt-3 px-3.5 py-1.5 rounded-full bg-black/70 text-white text-xs font-semibold backdrop-blur-sm">
-            Cliquez pour lancer la vidéo obligatoire
-          </span>
-        </div>
-
-        <!-- Barre de contrôle personnalisée (sans avance rapide possible) -->
-        <div class="bg-slate-900/95 text-white px-4 py-3 flex items-center gap-4 border-t border-white/10">
-          <button onclick="togglePlay()" id="play-pause-btn" class="p-1.5 rounded-lg hover:bg-white/10 transition" title="Lecture / Pause">
-            <svg id="icon-play" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-            <svg id="icon-pause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
-          </button>
-
-          <!-- Barre de progression non-cliquable -->
-          <div class="flex-1 flex items-center gap-3">
-            <div class="flex-1 h-2 bg-white/20 rounded-full overflow-hidden relative" title="L'avance rapide est désactivée pour cette formation">
-              <div id="video-progress-fill" class="h-full bg-indigo-500 transition-all duration-150" style="width: 0%"></div>
+            <!-- Superposition Play central au démarrage -->
+            <div id="play-overlay" onclick="togglePlay()" class="absolute inset-0 bg-slate-900/35 flex flex-col items-center justify-center cursor-pointer transition hover:bg-slate-900/25 p-4 text-center">
+              <div class="w-16 h-16 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-2xl transform transition group-hover:scale-105">
+                <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              </div>
+              <span class="mt-3 px-3.5 py-1.5 rounded-full bg-black/75 text-white text-xs font-semibold backdrop-blur-sm">
+                Lancer la vidéo
+              </span>
             </div>
-            <span id="video-time" class="text-xs font-mono text-slate-300 shrink-0">00:00 / 00:00</span>
           </div>
 
-          <button onclick="toggleMute()" class="p-1.5 rounded-lg hover:bg-white/10 transition" title="Son">
-            <svg id="icon-vol" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
-            <svg id="icon-mute" class="w-5 h-5 hidden text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"/></svg>
-          </button>
+          <!-- Barre de contrôle personnalisée (sans avance rapide possible) -->
+          <div class="bg-slate-900 text-white px-3.5 py-3 flex items-center gap-3 border-t border-white/10">
+            <button onclick="togglePlay()" id="play-pause-btn" class="p-1.5 rounded-lg hover:bg-white/10 transition shrink-0" title="Lecture / Pause">
+              <svg id="icon-play" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg id="icon-pause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+            </button>
+
+            <!-- Barre de progression non-cliquable -->
+            <div class="flex-1 flex items-center gap-2.5 min-w-0">
+              <div class="flex-1 h-2 bg-white/20 rounded-full overflow-hidden relative" title="L'avance rapide est désactivée">
+                <div id="video-progress-fill" class="h-full bg-indigo-500 transition-all duration-150" style="width: 0%"></div>
+              </div>
+              <span id="video-time" class="text-[11px] font-mono text-slate-300 shrink-0">00:00 / 00:00</span>
+            </div>
+
+            <button onclick="toggleMute()" class="p-1.5 rounded-lg hover:bg-white/10 transition shrink-0" title="Son">
+              <svg id="icon-vol" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+              <svg id="icon-mute" class="w-5 h-5 hidden text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"/></svg>
+            </button>
+          </div>
         </div>
       </div>
 
       <!-- Alerte anti-triche si tentative d'avance rapide -->
-      <div id="anti-skip-toast" class="hidden mt-3 px-4 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium flex items-center gap-2">
+      <div id="anti-skip-toast" class="hidden mt-3 px-4 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium flex items-center justify-center gap-2">
         <span>🔒</span>
-        <span>L'avance rapide est désactivée : vous devez visionner l'intégralité du module pour débloquer l'étape suivante.</span>
+        <span>L'avance rapide est désactivée : visionnez la vidéo jusqu'au bout pour continuer.</span>
       </div>
     </div>
 
     <!-- VUE 2 : DERNIÈRE ÉTAPE — FORMULAIRE NOM, PRÉNOM, EMAIL -->
     <div id="form-stage" class="hidden flex-1 flex flex-col justify-center max-w-xl mx-auto w-full">
-      <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-slate-200">
+      <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-200">
         <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-5">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
@@ -247,15 +250,15 @@
     </div>
 
     <!-- BARRE DE NAVIGATION BASSE (STYLE PPS : RETOUR / CONTINUER) -->
-    <footer id="bottom-nav" class="mt-8 pt-6 border-t border-slate-200/80 flex items-center justify-between gap-4">
+    <footer id="bottom-nav" class="mt-6 pt-5 border-t border-slate-200/80 flex items-center justify-between gap-3">
       <button id="prev-btn" onclick="goPrev()"
-        class="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2">
+        class="px-4 sm:px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shrink-0">
         <span>←</span>
         <span>Retour</span>
       </button>
 
       <button id="next-btn" onclick="goNext()" disabled
-        class="px-6 py-3.5 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-sky-200 text-white cursor-not-allowed">
+        class="px-4 sm:px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 bg-sky-200 text-white cursor-not-allowed text-center">
         <span id="next-btn-label">Regardez la vidéo pour continuer</span>
       </button>
     </footer>
@@ -293,8 +296,7 @@
   </div>
 
   <script>
-    // État du parcours
-    let currentStep = 0; // 0 à MODULES.length - 1 = vidéos ; MODULES.length = formulaire
+    let currentStep = 0;
     const completedSteps = new Set();
     let maxWatchedTime = 0;
 
@@ -318,7 +320,6 @@
       MODULES.forEach((mod, idx) => {
         const isCurrent = currentStep === idx;
         const isDone = completedSteps.has(idx);
-        const isLast = false;
 
         let badgeClass = 'bg-slate-100 text-slate-400 border border-slate-200';
         let titleClass = 'text-slate-400';
@@ -332,7 +333,7 @@
 
         html += `
           <div class="relative flex items-start gap-4">
-            ${!isLast ? `<div class="step-line ${isDone ? 'completed' : ''}"></div>` : ''}
+            <div class="step-line ${isDone ? 'completed' : ''}"></div>
             <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 z-10 transition-all ${badgeClass}">
               ${isDone && !isCurrent ? '✓' : getIconSvg(mod.icon)}
             </div>
@@ -346,7 +347,6 @@
         `;
       });
 
-      // Étape finale : Validation
       const formIdx = MODULES.length;
       const isFormCurrent = currentStep === formIdx;
       const isFormDone = completedSteps.has(formIdx);
@@ -370,7 +370,6 @@
 
       nav.innerHTML = html;
 
-      // Barre globale
       const pct = Math.round((completedSteps.size / totalSteps) * 100);
       document.getElementById('global-progress-text').textContent = pct + '%';
       document.getElementById('global-progress-bar').style.width = pct + '%';
@@ -382,7 +381,6 @@
       document.getElementById('anti-skip-toast').classList.add('hidden');
 
       if (idx < MODULES.length) {
-        // Afficher vidéo
         document.getElementById('video-stage').classList.remove('hidden');
         document.getElementById('form-stage').classList.add('hidden');
         document.getElementById('success-stage').classList.add('hidden');
@@ -405,7 +403,6 @@
           lockNextButton();
         }
       } else {
-        // Afficher formulaire final
         video.pause();
         document.getElementById('video-stage').classList.add('hidden');
         document.getElementById('form-stage').classList.remove('hidden');
@@ -419,19 +416,18 @@
 
     function lockNextButton() {
       nextBtn.disabled = true;
-      nextBtn.className = "px-6 py-3.5 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-sky-200 text-white cursor-not-allowed";
+      nextBtn.className = "px-4 sm:px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 bg-sky-200 text-white cursor-not-allowed text-center";
       nextBtnLabel.textContent = "Regardez la vidéo pour continuer";
     }
 
     function unlockNextButton() {
       completedSteps.add(currentStep);
       nextBtn.disabled = false;
-      nextBtn.className = "px-6 py-3.5 rounded-xl font-bold text-sm transition flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md cursor-pointer";
+      nextBtn.className = "px-4 sm:px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md cursor-pointer text-center";
       nextBtnLabel.textContent = currentStep === MODULES.length - 1 ? "Passer à la validation →" : "Étape suivante →";
       renderStepper();
     }
 
-    // Contrôles vidéo & anti-avance rapide
     function togglePlay() {
       if (video.paused) {
         video.play();
@@ -470,7 +466,6 @@
       document.getElementById('video-time').textContent = `${formatTime(video.currentTime)} / ${formatTime(video.duration)}`;
     });
 
-    // Empêcher l'avance rapide via clavier ou inspecteur
     video.addEventListener('seeking', () => {
       if (!completedSteps.has(currentStep) && video.currentTime > maxWatchedTime + 1.5) {
         video.currentTime = maxWatchedTime;
@@ -501,7 +496,6 @@
       }
     }
 
-    // Soumission du formulaire final
     async function submitForm(e) {
       e.preventDefault();
       const firstName = document.getElementById('firstName').value.trim();
@@ -513,12 +507,10 @@
       btn.disabled = true;
       btn.textContent = "Enregistrement en cours...";
 
-      // Sauvegarde locale
       const records = JSON.parse(localStorage.getItem('sumeria_ambassadors') || '[]');
       records.push({ date: dateStr, firstName, lastName, email });
       localStorage.setItem('sumeria_ambassadors', JSON.stringify(records));
 
-      // Envoi vers Google Sheets si configuré
       if (WEBHOOK_URL) {
         try {
           await fetch(WEBHOOK_URL, {
@@ -542,7 +534,6 @@
       document.getElementById('confirm-email').textContent = email;
     }
 
-    // Espace Responsable / Export CSV
     function openAdminModal() {
       const records = JSON.parse(localStorage.getItem('sumeria_ambassadors') || '[]');
       const tbody = document.getElementById('admin-table-body');
@@ -579,7 +570,6 @@
       a.click();
     }
 
-    // Initialisation au chargement
     loadStep(0);
   </script>
 </body>
