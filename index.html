@@ -19,9 +19,9 @@
     }
     .step-line {
       position: absolute;
-      left: 19px;
-      top: 42px;
-      bottom: -14px;
+      left: 17px;
+      top: 38px;
+      bottom: -12px;
       width: 2px;
       background-color: #E2E8F0;
       z-index: 0;
@@ -31,7 +31,7 @@
     }
   </style>
 </head>
-<body class="min-h-screen flex flex-col lg:flex-row">
+<body class="min-h-screen lg:h-screen lg:overflow-hidden flex flex-col lg:flex-row">
 
   <!-- =========================================================
        CONFIGURATION À PERSONNALISER (VIDÉOS & GOOGLE SHEETS)
@@ -67,10 +67,10 @@
   </script>
 
   <!-- COLONNE DE GAUCHE : PARCOURS STYLE PPS -->
-  <aside class="w-full lg:w-80 xl:w-96 bg-white border-b lg:border-b-0 lg:border-r border-slate-200 p-5 sm:p-6 lg:p-8 flex flex-col justify-between shrink-0">
+  <aside class="w-full lg:w-72 xl:w-80 bg-white border-b lg:border-b-0 lg:border-r border-slate-200 p-5 lg:p-6 flex flex-col justify-between shrink-0">
     <div>
       <!-- Logo / En-tête Programme -->
-      <div class="mb-6 lg:mb-8">
+      <div class="mb-5 lg:mb-7">
         <div class="inline-flex items-center gap-2.5">
           <div class="w-9 h-9 rounded-xl bg-slate-900 text-white flex items-center justify-center font-extrabold text-lg tracking-tight">
             S
@@ -83,13 +83,13 @@
       </div>
 
       <!-- Liste verticale des étapes -->
-      <nav aria-label="Progression de la formation" class="space-y-4 lg:space-y-6" id="stepper-nav">
+      <nav aria-label="Progression de la formation" class="space-y-4 lg:space-y-5" id="stepper-nav">
         <!-- Généré dynamiquement par JavaScript -->
       </nav>
     </div>
 
     <!-- Pied de colonne : Infos & Outil Démo / Export -->
-    <div class="mt-6 lg:mt-8 pt-5 border-t border-slate-100 space-y-3">
+    <div class="mt-5 pt-4 border-t border-slate-100 space-y-2.5">
       <div class="flex items-center justify-between text-xs text-slate-500">
         <span>Progression globale</span>
         <span id="global-progress-text" class="font-bold text-slate-800">0%</span>
@@ -99,7 +99,7 @@
       </div>
 
       <!-- Boutons de test et suivi -->
-      <div class="pt-2 flex flex-col gap-2">
+      <div class="pt-1.5 flex flex-col gap-1.5">
         <button id="demo-skip-btn" onclick="simulateVideoEnd()" class="text-[11px] text-slate-400 hover:text-indigo-600 text-left transition flex items-center gap-1.5">
           <span>⚡</span> <span>Mode test : simuler la fin de la vidéo</span>
         </button>
@@ -110,31 +110,33 @@
     </div>
   </aside>
 
-  <!-- ZONE PRINCIPALE : LECTEUR VIDÉO VERTICAL OU FORMULAIRE FINAL -->
-  <main class="flex-1 flex flex-col justify-between p-5 sm:p-8 lg:p-10 max-w-5xl mx-auto w-full">
+  <!-- ZONE PRINCIPALE : AJUSTÉE À 100% DE LA HAUTEUR D'ÉCRAN -->
+  <main class="flex-1 flex flex-col justify-between p-4 sm:p-6 lg:px-10 lg:py-6 max-w-5xl mx-auto w-full lg:h-screen">
     
     <!-- VUE 1 : ÉTAPES VIDÉO -->
-    <div id="video-stage" class="flex-1 flex flex-col">
-      <div class="mb-5">
-        <p class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1" id="header-eyebrow">
+    <div id="video-stage" class="flex-1 flex flex-col min-h-0">
+      <!-- En-tête compact -->
+      <div class="mb-3 shrink-0">
+        <p class="text-[11px] font-bold uppercase tracking-wider text-indigo-600 mb-0.5" id="header-eyebrow">
           FORMATION OBLIGATOIRE AMBASSADEURS SUMERIA
         </p>
         <div class="flex items-center gap-3">
-          <div id="header-icon" class="w-10 h-10 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm">
+          <div id="header-icon" class="w-9 h-9 rounded-xl bg-indigo-600 text-white flex items-center justify-center shrink-0 shadow-sm">
           </div>
           <div>
-            <h1 id="step-title" class="text-xl sm:text-2xl lg:text-3xl font-extrabold text-slate-900 tracking-tight">
+            <h1 id="step-title" class="text-lg sm:text-xl lg:text-2xl font-extrabold text-slate-900 tracking-tight leading-tight">
               Chargement...
             </h1>
-            <p id="step-subtitle" class="text-xs sm:text-sm text-slate-500 mt-0.5"></p>
+            <p id="step-subtitle" class="text-xs text-slate-500 mt-0.5 line-clamp-1"></p>
           </div>
         </div>
       </div>
 
-      <!-- Conteneur Vidéo Vertical (9:16) centré et responsive -->
-      <div class="flex-1 flex flex-col items-center justify-center my-2">
-        <div class="w-full max-w-[340px] sm:max-w-[360px] bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border-4 border-white relative group">
-          <div class="relative aspect-[9/16] bg-black flex items-center justify-center">
+      <!-- Conteneur Vidéo Vertical proportionné à la hauteur d'écran -->
+      <div class="flex-1 flex flex-col items-center justify-center min-h-0 py-1">
+        <div class="bg-slate-900 rounded-2xl overflow-hidden shadow-xl border-2 border-white relative group flex flex-col">
+          <!-- Hauteur adaptative : 56vh max sur ordinateur pour laisser place au header et aux boutons -->
+          <div class="relative bg-black flex items-center justify-center h-[62vh] sm:h-[56vh] lg:h-[58vh] aspect-[9/16]">
             <video
               id="training-video"
               class="w-full h-full object-contain bg-black"
@@ -144,78 +146,78 @@
 
             <!-- Superposition Play central au démarrage -->
             <div id="play-overlay" onclick="togglePlay()" class="absolute inset-0 bg-slate-900/35 flex flex-col items-center justify-center cursor-pointer transition hover:bg-slate-900/25 p-4 text-center">
-              <div class="w-16 h-16 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-2xl transform transition group-hover:scale-105">
-                <svg class="w-8 h-8 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <div class="w-14 h-14 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-2xl transform transition group-hover:scale-105">
+                <svg class="w-7 h-7 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
               </div>
-              <span class="mt-3 px-3.5 py-1.5 rounded-full bg-black/75 text-white text-xs font-semibold backdrop-blur-sm">
+              <span class="mt-2.5 px-3 py-1 rounded-full bg-black/75 text-white text-[11px] font-semibold backdrop-blur-sm">
                 Lancer la vidéo
               </span>
             </div>
           </div>
 
-          <!-- Barre de contrôle personnalisée (sans avance rapide possible) -->
-          <div class="bg-slate-900 text-white px-3.5 py-3 flex items-center gap-3 border-t border-white/10">
-            <button onclick="togglePlay()" id="play-pause-btn" class="p-1.5 rounded-lg hover:bg-white/10 transition shrink-0" title="Lecture / Pause">
-              <svg id="icon-play" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-              <svg id="icon-pause" class="w-5 h-5 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
+          <!-- Barre de contrôle compacte (sans avance rapide possible) -->
+          <div class="bg-slate-900 text-white px-3 py-2.5 flex items-center gap-2.5 border-t border-white/10 shrink-0">
+            <button onclick="togglePlay()" id="play-pause-btn" class="p-1 rounded-lg hover:bg-white/10 transition shrink-0" title="Lecture / Pause">
+              <svg id="icon-play" class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+              <svg id="icon-pause" class="w-4 h-4 hidden" fill="currentColor" viewBox="0 0 24 24"><path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/></svg>
             </button>
 
             <!-- Barre de progression non-cliquable -->
-            <div class="flex-1 flex items-center gap-2.5 min-w-0">
-              <div class="flex-1 h-2 bg-white/20 rounded-full overflow-hidden relative" title="L'avance rapide est désactivée">
+            <div class="flex-1 flex items-center gap-2 min-w-0">
+              <div class="flex-1 h-1.5 bg-white/20 rounded-full overflow-hidden relative" title="L'avance rapide est désactivée">
                 <div id="video-progress-fill" class="h-full bg-indigo-500 transition-all duration-150" style="width: 0%"></div>
               </div>
-              <span id="video-time" class="text-[11px] font-mono text-slate-300 shrink-0">00:00 / 00:00</span>
+              <span id="video-time" class="text-[10px] font-mono text-slate-300 shrink-0">00:00 / 00:00</span>
             </div>
 
-            <button onclick="toggleMute()" class="p-1.5 rounded-lg hover:bg-white/10 transition shrink-0" title="Son">
-              <svg id="icon-vol" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
-              <svg id="icon-mute" class="w-5 h-5 hidden text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"/></svg>
+            <button onclick="toggleMute()" class="p-1 rounded-lg hover:bg-white/10 transition shrink-0" title="Son">
+              <svg id="icon-vol" class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 010 14.14M15.54 8.46a5 5 0 010 7.07"/></svg>
+              <svg id="icon-mute" class="w-4 h-4 hidden text-rose-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M11 5L6 9H2v6h4l5 4V5zM23 9l-6 6M17 9l6 6"/></svg>
             </button>
           </div>
         </div>
       </div>
 
-      <!-- Alerte anti-triche si tentative d'avance rapide -->
-      <div id="anti-skip-toast" class="hidden mt-3 px-4 py-2.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium flex items-center justify-center gap-2">
+      <!-- Alerte anti-triche compacte -->
+      <div id="anti-skip-toast" class="hidden mt-2 px-3 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-800 text-xs font-medium flex items-center justify-center gap-2 shrink-0">
         <span>🔒</span>
         <span>L'avance rapide est désactivée : visionnez la vidéo jusqu'au bout pour continuer.</span>
       </div>
     </div>
 
     <!-- VUE 2 : DERNIÈRE ÉTAPE — FORMULAIRE NOM, PRÉNOM, EMAIL -->
-    <div id="form-stage" class="hidden flex-1 flex flex-col justify-center max-w-xl mx-auto w-full">
-      <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-sm border border-slate-200">
-        <div class="w-12 h-12 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-5">
+    <div id="form-stage" class="hidden flex-1 flex flex-col justify-center max-w-xl mx-auto w-full overflow-y-auto">
+      <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-sm border border-slate-200">
+        <div class="w-11 h-11 rounded-2xl bg-emerald-100 text-emerald-600 flex items-center justify-center mb-4">
           <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
         <span class="text-xs font-bold uppercase tracking-wider text-emerald-600">Toutes les vidéos ont été visionnées</span>
-        <h2 class="text-2xl font-extrabold text-slate-900 mt-1">Validez votre attestation ambassadeur</h2>
-        <p class="text-sm text-slate-500 mt-2 mb-6">
-          Renseignez vos coordonnées ci-dessous pour enregistrer la complétion de votre formation auprès de l'équipe Sumeria et débloquer votre première mission.
+        <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">Validez votre attestation ambassadeur</h2>
+        <p class="text-xs sm:text-sm text-slate-500 mt-1.5 mb-5">
+          Renseignez vos coordonnées ci-dessous pour enregistrer la complétion de votre formation auprès de l'équipe Sumeria.
         </p>
 
-        <form id="completion-form" onsubmit="submitForm(event)" class="space-y-4">
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        <form id="completion-form" onsubmit="submitForm(event)" class="space-y-3.5">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Prénom *</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Prénom *</label>
               <input type="text" id="firstName" required placeholder="Ex : Camille"
-                class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
             </div>
             <div>
-              <label class="block text-xs font-bold text-slate-700 mb-1.5">Nom *</label>
+              <label class="block text-xs font-bold text-slate-700 mb-1">Nom *</label>
               <input type="text" id="lastName" required placeholder="Ex : Martin"
-                class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+                class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
             </div>
           </div>
 
           <div>
-            <label class="block text-xs font-bold text-slate-700 mb-1.5">Adresse e-mail *</label>
+            <label class="block text-xs font-bold text-slate-700 mb-1">Adresse e-mail *</label>
             <input type="email" id="email" required placeholder="camille.martin@exemple.fr"
-              class="w-full px-4 py-3 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:border-transparent" />
           </div>
 
-          <div class="pt-2">
+          <div class="pt-1">
             <label class="flex items-start gap-2.5 cursor-pointer">
               <input type="checkbox" required class="mt-0.5 rounded border-slate-300 text-indigo-600 focus:ring-indigo-600" />
               <span class="text-xs text-slate-500 leading-relaxed">
@@ -225,7 +227,7 @@
           </div>
 
           <button type="submit" id="submit-btn"
-            class="w-full mt-4 py-3.5 px-6 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-sm transition shadow-md cursor-pointer">
+            class="w-full mt-3 py-3 px-6 rounded-xl bg-slate-900 hover:bg-indigo-600 text-white font-bold text-sm transition shadow-md cursor-pointer">
             Valider ma formation
           </button>
         </form>
@@ -234,31 +236,31 @@
 
     <!-- VUE 3 : CONFIRMATION FINALE -->
     <div id="success-stage" class="hidden flex-1 flex flex-col justify-center max-w-xl mx-auto w-full text-center">
-      <div class="bg-white rounded-3xl p-8 sm:p-12 shadow-sm border border-slate-200">
-        <div class="w-16 h-16 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-5">
-          <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      <div class="bg-white rounded-3xl p-8 sm:p-10 shadow-sm border border-slate-200">
+        <div class="w-14 h-14 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center mx-auto mb-4">
+          <svg class="w-7 h-7" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
         </div>
         <h2 class="text-2xl font-extrabold text-slate-900">Formation validée !</h2>
         <p class="text-sm text-slate-600 mt-2 leading-relaxed">
           Merci <span id="confirm-name" class="font-bold text-slate-900"></span>. Votre parcours est désormais enregistré auprès de l'équipe Ambassadeurs Sumeria.
         </p>
-        <div class="mt-6 p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-500 space-y-1">
+        <div class="mt-5 p-4 rounded-2xl bg-slate-50 border border-slate-100 text-xs text-slate-500 space-y-1">
           <p><strong>Date de validation :</strong> <span id="confirm-date"></span></p>
           <p><strong>E-mail enregistré :</strong> <span id="confirm-email"></span></p>
         </div>
       </div>
     </div>
 
-    <!-- BARRE DE NAVIGATION BASSE (STYLE PPS : RETOUR / CONTINUER) -->
-    <footer id="bottom-nav" class="mt-6 pt-5 border-t border-slate-200/80 flex items-center justify-between gap-3">
+    <!-- BARRE DE NAVIGATION BASSE COMPACTE (STYLE PPS : RETOUR / CONTINUER) -->
+    <footer id="bottom-nav" class="mt-3 pt-3.5 border-t border-slate-200/80 flex items-center justify-between gap-3 shrink-0">
       <button id="prev-btn" onclick="goPrev()"
-        class="px-4 sm:px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shrink-0">
+        class="px-4 py-2.5 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shrink-0">
         <span>←</span>
         <span>Retour</span>
       </button>
 
       <button id="next-btn" onclick="goNext()" disabled
-        class="px-4 sm:px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 bg-sky-200 text-white cursor-not-allowed text-center">
+        class="px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 bg-sky-200 text-white cursor-not-allowed text-center">
         <span id="next-btn-label">Regardez la vidéo pour continuer</span>
       </button>
     </footer>
@@ -306,10 +308,10 @@
     const prevBtn = document.getElementById('prev-btn');
 
     function getIconSvg(type) {
-      if (type === 'rocket') return '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>';
-      if (type === 'sparkles') return '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>';
-      if (type === 'shield') return '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>';
-      return '<svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
+      if (type === 'rocket') return '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>';
+      if (type === 'sparkles') return '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z"/></svg>';
+      if (type === 'shield') return '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>';
+      return '<svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>';
     }
 
     function renderStepper() {
@@ -332,16 +334,16 @@
         }
 
         html += `
-          <div class="relative flex items-start gap-4">
+          <div class="relative flex items-start gap-3.5">
             <div class="step-line ${isDone ? 'completed' : ''}"></div>
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 z-10 transition-all ${badgeClass}">
+            <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 z-10 transition-all ${badgeClass}">
               ${isDone && !isCurrent ? '✓' : getIconSvg(mod.icon)}
             </div>
             <div class="pt-0.5">
               <span class="block text-[10px] font-bold uppercase tracking-wider ${isCurrent ? 'text-indigo-600' : 'text-slate-400'}">
                 Étape ${idx + 1}
               </span>
-              <p class="text-sm leading-snug ${titleClass}">${mod.title}</p>
+              <p class="text-xs sm:text-sm leading-snug ${titleClass}">${mod.title}</p>
             </div>
           </div>
         `;
@@ -351,8 +353,8 @@
       const isFormCurrent = currentStep === formIdx;
       const isFormDone = completedSteps.has(formIdx);
       html += `
-        <div class="relative flex items-start gap-4">
-          <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 z-10 transition-all ${
+        <div class="relative flex items-start gap-3.5">
+          <div class="w-9 h-9 rounded-xl flex items-center justify-center shrink-0 z-10 transition-all ${
             isFormDone ? 'bg-emerald-500 text-white' : isFormCurrent ? 'bg-indigo-600 text-white shadow-md shadow-indigo-200' : 'bg-slate-100 text-slate-400 border border-slate-200'
           }">
             ${isFormDone ? '✓' : getIconSvg('form')}
@@ -361,7 +363,7 @@
             <span class="block text-[10px] font-bold uppercase tracking-wider ${isFormCurrent ? 'text-indigo-600' : 'text-slate-400'}">
               Étape ${totalSteps}
             </span>
-            <p class="text-sm leading-snug ${isFormCurrent ? 'text-slate-900 font-bold' : isFormDone ? 'text-slate-700 font-semibold' : 'text-slate-400'}">
+            <p class="text-xs sm:text-sm leading-snug ${isFormCurrent ? 'text-slate-900 font-bold' : isFormDone ? 'text-slate-700 font-semibold' : 'text-slate-400'}">
               Finalisation & attestation
             </p>
           </div>
@@ -416,14 +418,14 @@
 
     function lockNextButton() {
       nextBtn.disabled = true;
-      nextBtn.className = "px-4 sm:px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 bg-sky-200 text-white cursor-not-allowed text-center";
+      nextBtn.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 bg-sky-200 text-white cursor-not-allowed text-center";
       nextBtnLabel.textContent = "Regardez la vidéo pour continuer";
     }
 
     function unlockNextButton() {
       completedSteps.add(currentStep);
       nextBtn.disabled = false;
-      nextBtn.className = "px-4 sm:px-6 py-3.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md cursor-pointer text-center";
+      nextBtn.className = "px-5 py-2.5 rounded-xl font-bold text-xs sm:text-sm transition flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md cursor-pointer text-center";
       nextBtnLabel.textContent = currentStep === MODULES.length - 1 ? "Passer à la validation →" : "Étape suivante →";
       renderStepper();
     }
