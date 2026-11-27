@@ -63,7 +63,7 @@
     const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbw0p7llFIBLy2HvexrNs88ghI1J0pvNfxspRyefzQrpLa4TiiJ4p1g3gHLS-DSRU6HOUA/exec";
   </script>
 
-  <!-- COLONNE DE GAUCHE : PARCOURS STYLE PPS (ÉLARGIE ET PLUS LISIBLE) -->
+  <!-- COLONNE DE GAUCHE : PARCOURS STYLE PPS -->
   <aside class="w-full lg:w-80 xl:w-96 bg-white border-b lg:border-b-0 lg:border-r border-slate-200 p-6 lg:p-8 flex flex-col justify-between shrink-0">
     <div>
       <!-- Logo / En-tête Programme -->
@@ -108,11 +108,11 @@
   </aside>
 
   <!-- ZONE PRINCIPALE : AJUSTÉE À 100% DE LA HAUTEUR D'ÉCRAN -->
-  <main class="flex-1 flex flex-col justify-between p-5 sm:p-8 lg:px-12 lg:py-7 max-w-6xl mx-auto w-full lg:h-screen">
+  <main class="flex-1 flex flex-col justify-between p-5 sm:p-8 lg:px-12 lg:py-6 max-w-6xl mx-auto w-full lg:h-screen">
     
     <!-- VUE 1 : ÉTAPES VIDÉO -->
     <div id="video-stage" class="flex-1 flex flex-col min-h-0">
-      <!-- En-tête agrandi -->
+      <!-- En-tête -->
       <div class="mb-3 shrink-0">
         <p class="text-xs font-bold uppercase tracking-wider text-indigo-600 mb-1" id="header-eyebrow">
           FORMATION AMBASSADEURS SUMERIA
@@ -129,10 +129,10 @@
         </div>
       </div>
 
-      <!-- Conteneur Vidéo Vertical agrandi (h-[68vh] sur ordinateur) sans déborder -->
+      <!-- Conteneur Vidéo Vertical + Barre noire toujours visible -->
       <div class="flex-1 flex flex-col items-center justify-center min-h-0 py-1">
         <div class="bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border-[3px] border-white relative group flex flex-col">
-          <div class="relative bg-black flex items-center justify-center h-[64vh] sm:h-[64vh] lg:h-[68vh] aspect-[9/16]">
+          <div class="relative bg-black flex items-center justify-center h-[58vh] sm:h-[58vh] lg:h-[61vh] aspect-[9/16]">
             <video
               id="training-video"
               class="w-full h-full object-contain bg-black"
@@ -140,7 +140,7 @@
               preload="auto"
             ></video>
 
-            <!-- Superposition Play central parfaitement centrée -->
+            <!-- Superposition Play central -->
             <div id="play-overlay" onclick="togglePlay()" class="absolute inset-0 bg-slate-900/35 flex flex-col items-center justify-center cursor-pointer transition hover:bg-slate-900/25 p-4 text-center">
               <div class="w-16 h-16 rounded-full bg-white text-slate-900 flex items-center justify-center shadow-2xl transform transition group-hover:scale-105">
                 <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M8.5 5.5v13l10.5-6.5z"/></svg>
@@ -151,7 +151,7 @@
             </div>
           </div>
 
-          <!-- Barre de contrôle (sans avance rapide possible) -->
+          <!-- Barre de contrôle noire (lecture/pause, progression, durée, son) -->
           <div class="bg-slate-900 text-white px-4 py-3 flex items-center gap-3 border-t border-white/10 shrink-0">
             <button onclick="togglePlay()" id="play-pause-btn" class="p-1 rounded-lg hover:bg-white/10 transition shrink-0" title="Lecture / Pause">
               <svg id="icon-play" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M8.5 5.5v13l10.5-6.5z"/></svg>
@@ -247,8 +247,8 @@
       </div>
     </div>
 
-    <!-- BARRE DE NAVIGATION BASSE PLUS AFFIRMÉE -->
-    <footer id="bottom-nav" class="mt-3 pt-4 border-t border-slate-200/80 flex items-center justify-between gap-4 shrink-0">
+    <!-- BARRE DE NAVIGATION BASSE -->
+    <footer id="bottom-nav" class="mt-3 pt-3.5 border-t border-slate-200/80 flex items-center justify-between gap-4 shrink-0">
       <button id="prev-btn" onclick="goPrev()"
         class="px-5 py-3 rounded-xl bg-white border border-slate-200 text-slate-700 font-semibold text-sm hover:bg-slate-50 transition disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shrink-0">
         <span>←</span>
