@@ -508,7 +508,7 @@
       document.getElementById('global-progress-bar').style.width = pct + '%';
     }
 
-    function loadStep(idx) {
+    function loadStep(idx, autoPlay = false) {
       currentStep = idx;
       maxWatchedTime = 0;
       document.getElementById('anti-skip-toast').classList.add('hidden');
@@ -536,9 +536,23 @@
 
         video.src = step.videoUrl;
         video.load();
-        document.getElementById('play-overlay').classList.remove('hidden');
         document.getElementById('video-progress-fill').style.width = '0%';
-        updatePlayIcons(false);
+
+        if (autoPlay) {
+          const playPromise = video.play();
+          if (playPromise !== undefined) {
+            playPromise.then(() => {
+              document.getElementById('play-overlay').classList.add('hidden');
+              updatePlayIcons(true);
+            }).catch(() => {
+              document.getElementById('play-overlay').classList.remove('hidden');
+              updatePlayIcons(false);
+            });
+          }
+        } else {
+          document.getElementById('play-overlay').classList.remove('hidden');
+          updatePlayIcons(false);
+        }
 
         if (completedSteps.has(idx)) {
           unlockNextButton();
@@ -567,7 +581,13 @@
       completedSteps.add(currentStep);
       nextBtn.disabled = false;
       nextBtn.className = "px-6 py-3 rounded-xl font-bold text-sm transition flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white shadow-md cursor-pointer text-center";
-      nextBtnLabel.textContent = currentStep === FLAT_STEPS.length - 1 ? "Passer à la validation →" : "Continuer →";
+      if (currentStep === FLAT_STEPS.length - 1) {
+        nextBtnLabel.textContent = "Passer à la validation →";
+      } else if (FLAT_STEPS[currentStep].subIdx < FLAT_STEPS[currentStep].totalSubsInMod - 1) {
+        nextBtnLabel.textContent = "Sous-module suivant →";
+      } else {
+        nextBtnLabel.textContent = "Module suivant →";
+      }
       renderStepper();
     }
 
@@ -616,26 +636,42 @@
       }
     });
 
-    video.addEventListener('ended', () => {
+    // Gestion de la fin de vidéo : enchaînement auto entre sous-modules, pause entre modules
+    function handleVideoCompletion(autoAdvance) {
       updatePlayIcons(false);
-      unlockNextButton();
+      completedSteps.add(currentStep);
+
+      const step = FLAT_STEPS[currentStep];
+      const hasNextSubInSameModule = step && (step.subIdx < step.totalSubsInMod - 1);
+
+      if (autoAdvance && hasNextSubInSameModule) {
+        // Passe automatiquement au sous-module suivant du même module et lance la lecture
+        loadStep(currentStep + 1, true);
+      } else {
+        // Fin du module : débloque le bouton "Module suivant →" ou "Passer à la validation →"
+        unlockNextButton();
+      }
+    }
+
+    video.addEventListener('ended', () => {
+      handleVideoCompletion(true);
     });
 
     function simulateVideoEnd() {
       if (currentStep < FLAT_STEPS.length) {
-        unlockNextButton();
+        handleVideoCompletion(true);
       }
     }
 
     function goNext() {
       if (!nextBtn.disabled && currentStep < FLAT_STEPS.length) {
-        loadStep(currentStep + 1);
+        loadStep(currentStep + 1, false);
       }
     }
 
     function goPrev() {
       if (currentStep > 0) {
-        loadStep(currentStep - 1);
+        loadStep(currentStep - 1, false);
       }
     }
 
@@ -713,7 +749,7 @@
       a.click();
     }
 
-    loadStep(0);
+    loadStep(0, false);
   </script>
 </body>
 </html>
